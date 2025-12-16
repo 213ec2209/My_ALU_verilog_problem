@@ -25,8 +25,6 @@ async def test_alu_sub(dut):
     cocotb.start_soon(clock.start())
 
     await RisingEdge(dut.clk)   # 
-
-   await RisingEdge(dut.clk)
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 1  
