@@ -13,7 +13,7 @@ async def test_alu_add(dut):
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 0  
-
+    await RisingEdge(dut.clk)
     await RisingEdge(dut.clk)
 
     dut._log.info(f"A={dut.A.value} B={dut.B.value} Y={dut.Y.value}")
@@ -28,7 +28,7 @@ async def test_alu_sub(dut):
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 1  
-
+    await RisingEdge(dut.clk)
     await RisingEdge(dut.clk)
     assert dut.Y.value == 0x02
 
@@ -44,6 +44,7 @@ async def test_alu_and(dut):
     dut.B.value = 0x10
     dut.op.value = 2  
     await RisingEdge(dut.clk)
+    await RisingEdge(dut.clk)
     assert dut.Y.value == 0x10
 
 
@@ -57,7 +58,7 @@ async def test_alu_or(dut):
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 3  
-    
+    await RisingEdge(dut.clk)
     await RisingEdge(dut.clk)
     assert dut.Y.value == 0x12
 
@@ -67,12 +68,12 @@ async def test_alu_xor(dut):
     """Test ALU XOR"""
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
- 
+    await RisingEdge(dut.clk)
     await RisingEdge(dut.clk)   # 
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 4  
-
+    await RisingEdge(dut.clk)
     await RisingEdge(dut.clk)
     assert dut.Y.value == 0x02
 
@@ -87,7 +88,7 @@ async def test_alu_slt_unsigned(dut):
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 5  
-
+    await RisingEdge(dut.clk)
     await RisingEdge(dut.clk)
     assert dut.Y.value == 0x00
 
