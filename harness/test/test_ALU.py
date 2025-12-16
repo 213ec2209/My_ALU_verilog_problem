@@ -87,29 +87,3 @@ async def test_alu_slt_unsigned(dut):
 
     await RisingEdge(dut.clk)
     assert dut.Y.value == 0x00
-
-# ✅ CRITICAL: Pytest wrapper function
-def test_ALU_hidden_runner():
-    import os
-    from pathlib import Path
-    from cocotb_tools.runner import get_runner
-    
-    sim = os.getenv("SIM", "icarus")
-    proj_path = Path(__file__).resolve().parent.parent
-    
-    sources = [
-        proj_path / "sources/ALU.sv",
-    ]
-    
-    runner = get_runner(sim)
-    runner.build(
-        sources=sources,
-        hdl_toplevel="ALU",
-        always=True,
-    )
-    
-    runner.test(
-        hdl_toplevel="ALU",
-        test_module="test_ALU_hidden"
-    )
-

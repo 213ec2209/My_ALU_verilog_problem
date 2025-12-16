@@ -1,0 +1,1 @@
+1. ALu operations: The number of arithmetic operations is depend upon op value what opration is performed.
