@@ -1,4 +1,3 @@
-
 `timescale 1ns/1ps
 module ALU (
     input  logic clk, //clock input signal
@@ -9,16 +8,15 @@ module ALU (
 );
 
    always_ff @(posedge clk) begin
- case (op)
-            3'b000: Y <= A + B;                 // ADD
-            3'b001: Y <= A - B;                 // SUB
-            3'b010: Y <= A & B;                 // AND
-            3'b011: Y <= A | B;                 // OR
-            3'b100: Y <= A ^ B;                 // XOR
-            3'b101: Y <= (A < B) ? 8'd1 : 8'd0; // SLT (BUG: unsigned compare)
-            default: Y <= 8'd0;
-       
-endcase
-   end  
+      case (op)
+         3'b000: Y <= A + B;                              // ADD
+         3'b001: Y <= A - B;                              // SUB
+         3'b010: Y <= A & B;                              // AND
+         3'b011: Y <= A | B;                              // OR
+         3'b100: Y <= A ^ B;                              // XOR
+         3'b101: Y <= ($unsigned(A) < $unsigned(B)) ? 8'd1 : 8'd0; // SLT (unsigned compare)
+         default: Y <= 8'd0;
+      endcase
+   end
 endmodule
 
