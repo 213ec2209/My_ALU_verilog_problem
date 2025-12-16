@@ -9,7 +9,7 @@ async def test_alu_add(dut):
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
 
-    await RisingEdge(dut.clk)   # ✅ correctly indented
+    await RisingEdge(dut.clk)   # 
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 0  
@@ -24,7 +24,7 @@ async def test_alu_sub(dut):
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
 
-    await RisingEdge(dut.clk)   # ✅ correctly indented
+    await RisingEdge(dut.clk)   # 
 
    await RisingEdge(dut.clk)
     dut.A.value = 0x12
@@ -41,7 +41,7 @@ async def test_alu_and(dut):
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
  
-    await RisingEdge(dut.clk)   # ✅ correctly indented
+    await RisingEdge(dut.clk)   # 
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 2  
@@ -55,7 +55,7 @@ async def test_alu_or(dut):
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
   
-    await RisingEdge(dut.clk)   # ✅ correctly indented
+    await RisingEdge(dut.clk)   # 
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 3  
@@ -70,7 +70,7 @@ async def test_alu_xor(dut):
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
  
-    await RisingEdge(dut.clk)   # ✅ correctly indented
+    await RisingEdge(dut.clk)   # 
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 4  
@@ -85,7 +85,7 @@ async def test_alu_slt_unsigned(dut):
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
 
-    await RisingEdge(dut.clk)   # ✅ correctly indented
+    await RisingEdge(dut.clk)   # 
     dut.A.value = 0x12
     dut.B.value = 0x10
     dut.op.value = 5  
