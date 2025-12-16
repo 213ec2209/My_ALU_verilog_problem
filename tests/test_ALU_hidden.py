@@ -1,94 +1,33 @@
 import cocotb
 from cocotb.triggers import Timer
-from cocotb.clock import Clock
-from cocotb.triggers import RisingEdge
 
 @cocotb.test()
-async def test_alu_add(dut):
-    """Test ALU ADD"""
-    clock = Clock(dut.clk, 10, units="ns")
-    cocotb.start_soon(clock.start())
+async def test_alu_operations(dut):
+    """Test all operations of 8-bit ALU"""
 
-    dut.A.value = 0x12
-    dut.B.value = 0x10
-    dut.op.value = 0  # ADD
+    test_vectors = [
+        (0x12, 0x10, 0b000, 0x22),  # ADD
+        (0x12, 0x10, 0b001, 0x02),  # SUB
+        (0x12, 0x10, 0b010, 0x10),  # AND
+        (0x12, 0x10, 0b011, 0x12),  # OR
+        (0x12, 0x10, 0b100, 0x02),  # XOR
+        (0x12, 0x10, 0b101, 0x00),  # SLT
+        (0x05, 0x10, 0b101, 0x01),  # SLT (A<B)
+    ]
 
-    await RisingEdge(dut.clk)
+    for A_val, B_val, op_val, expected in test_vectors:
+        dut.A.value = A_val
+        dut.B.value = B_val
+        dut.op.value = op_val
 
-    dut._log.info(f"A={dut.A.value} B={dut.B.value} Y={dut.Y.value}")
-    assert dut.Y.value == 0x22
+        await Timer(1, units="ns")  # wait for combinational logic
 
+        assert dut.Y.value.integer == expected, \
+            f"ALU failed for A={A_val}, B={B_val}, op={op_val:03b}: expected {expected}, got {dut.Y.value.integer}"
 
-@cocotb.test()
-async def test_alu_sub(dut):
-    """Test ALU SUB"""
-    clock = Clock(dut.clk, 10, units="ns")
-    cocotb.start_soon(clock.start())
+        dut._log.info(f"PASS: A={A_val:02X}, B={B_val:02X}, op={op_val:03b} => Y={dut.Y.value.integer:02X}")
 
-    dut.A.value = 0x12
-    dut.B.value = 0x10
-    dut.op.value = 1  # SUB
-
-    await RisingEdge(dut.clk)
-    assert dut.Y.value == 0x02
-
-
-@cocotb.test()
-async def test_alu_and(dut):
-    """Test ALU AND"""
-    clock = Clock(dut.clk, 10, units="ns")
-    cocotb.start_soon(clock.start())
-
-    dut.A.value = 0x12
-    dut.B.value = 0x10
-    dut.op.value = 2  # AND
-
-    await RisingEdge(dut.clk)
-    assert dut.Y.value == 0x10
-
-
-@cocotb.test()
-async def test_alu_or(dut):
-    """Test ALU OR"""
-    clock = Clock(dut.clk, 10, units="ns")
-    cocotb.start_soon(clock.start())
-
-    dut.A.value = 0x12
-    dut.B.value = 0x10
-    dut.op.value = 3  # OR
-
-    await RisingEdge(dut.clk)
-    assert dut.Y.value == 0x12
-
-
-@cocotb.test()
-async def test_alu_xor(dut):
-    """Test ALU XOR"""
-    clock = Clock(dut.clk, 10, units="ns")
-    cocotb.start_soon(clock.start())
-
-    dut.A.value = 0x12
-    dut.B.value = 0x10
-    dut.op.value = 4  # XOR
-
-    await RisingEdge(dut.clk)
-    assert dut.Y.value == 0x02
-
-
-@cocotb.test()
-async def test_alu_slt_unsigned(dut):
-    """Test ALU SLT (unsigned)"""
-    clock = Clock(dut.clk, 10, units="ns")
-    cocotb.start_soon(clock.start())
-
-    dut.A.value = 0x12
-    dut.B.value = 0x10
-    dut.op.value = 5  # SLT
-
-    await RisingEdge(dut.clk)
-    assert dut.Y.value == 0x00
-
-# ✅ CRITICAL: Pytest wrapper function
+# CRITICAL: Pytest wrapper function
 def test_ALU_hidden_runner():
     import os
     from pathlib import Path
@@ -97,9 +36,7 @@ def test_ALU_hidden_runner():
     sim = os.getenv("SIM", "icarus")
     proj_path = Path(__file__).resolve().parent.parent
     
-    sources = [
-        proj_path / "sources/ALU.sv",
-    ]
+    sources = [proj_path / "sources/ALU.sv"]
     
     runner = get_runner(sim)
     runner.build(
@@ -108,8 +45,4 @@ def test_ALU_hidden_runner():
         always=True,
     )
     
-    runner.test(
-        hdl_toplevel="ALU",
-        test_module="test_ALU_hidden"
-    )
-
+    runner.test(hdl_toplevel="ALU", test_module="test_ALU_hidden")
