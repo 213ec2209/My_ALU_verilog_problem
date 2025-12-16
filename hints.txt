@@ -1,1 +1,2 @@
 1. ALu operations: The number of arithmetic operations is depend upon op value what opration is performed.
+2. The ALU output is expected to be purely combinational; no clock-cycle latency is allowed.
