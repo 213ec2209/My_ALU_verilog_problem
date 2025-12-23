@@ -14,19 +14,13 @@ In order to understand the ALU functionality, the following parameters are requi
 
 Clock signal (clk)
 
-
+Reset signal (rst)
 
 First operand (A)
 
-
-
 Second operand (B)
 
-
-
 Operation select (op)
-
-
 
 ALU result (Y)
 
@@ -92,15 +86,15 @@ The ALU module accepts two 8-bit input operands (A and B) and a 3-bit operation 
 
 Inputs
 
+clk : Clock signal (rising edge triggered)
 
+rst : Synchronous reset signal (active HIGH)
+  - When rst = 1: Output Y is reset to 8'h00
+  - When rst = 0: Normal ALU operations are performed
 
 A : 8-bit input operand
 
-
-
 B : 8-bit input operand
-
-
 
 op : 3-bit operation selector
 
