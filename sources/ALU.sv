@@ -9,8 +9,8 @@ module ALU (
 );
 
 always @(posedge clk) begin
-    if (!rst) begin
-        Y <= 8'd0;
+    if (rst) begin
+        Y <= 8'd0;  // Active HIGH reset - when rst=1, reset to zero
     end else begin
         case (op)
             3'b000: Y <= A + B;                 // ADD
