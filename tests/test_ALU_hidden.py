@@ -136,14 +136,14 @@ async def test_ALU_7(dut):
                   dut.rst.value, dut.A.value, dut.B.value, dut.op.value, dut.Y.value)
     assert dut.Y.value == 0x01, "A<B operation is not correct"   
 
-# ✅ CRITICAL: Pytest wrapper function
+# CRITICAL: Pytest wrapper function
 def test_ALU_hidden_runner():
     """Pytest wrapper to run cocotb tests"""
     sim = os.getenv("SIM", "icarus")
     proj_path = Path(__file__).resolve().parent.parent
     
     sources = [
-        proj_path / "sources/ALU.sv",
+        proj_path / "sources/ALU.v",
     ]
     
     runner = get_runner(sim)
