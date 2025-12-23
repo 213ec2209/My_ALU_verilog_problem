@@ -7,16 +7,9 @@ module ALU (
     input  wire [2:0]  op,    // operation select
     output reg  [7:0]  Y      // ALU output
 );
-<<<<<<< HEAD:sources/ALU.v
 always @(posedge clk or posedge rst) begin
     if (!rst) begin
         Y <= 8'd0;
-=======
-
-always @(posedge clk) begin
-    if (rst) begin
-        Y <= 8'd0;  // Active HIGH reset - when rst=1, reset to zero
->>>>>>> a8939d7bc04d23a2b6b37b7b0df4b9a821595a1f:sources/ALU.sv
     end else begin
         case (op)
             3'b000: Y <= A + B;                 // ADD
