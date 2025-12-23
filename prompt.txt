@@ -7,7 +7,11 @@ The ALU is an 8-bit synchronous Arithmetic Logic Unit that performs arithmetic a
 The ALU performs computation using fundamental digital logic elements such as adders, subtractors, XOR gates, AND/OR gates, and unsigned comparators. No internal storage elements or feedback paths are used, making the ALU a purely combinational circuit. This design choice ensures low latency and predictable timing behavior.
 
 ALU Functional Principle
-Intialy when rst is low then y is set to zero value.
+
+Reset Behavior:
+- When rst = 1 (HIGH): The output Y is reset to 8'h00 on the rising clock edge
+- When rst = 0 (LOW): Normal ALU operations are performed based on the op signal
+
 Let A and B be the two 8-bit input operands, and op be the 3-bit operation selector. The ALU evaluates the selected operation based on op and rising edge of clock and produces the corresponding output Y.
 
 Each operation is computed independently, and a multiplexer selects the final output according to the operation code. Arithmetic operations are performed using 8-bit unsigned arithmetic, while logical operations are applied bitwise across the operands.
@@ -50,8 +54,8 @@ module ALU (
 );
 
 //Insert internal signal declarations
-//intiaaly reset y into zero
- // write a case statement to perform different arithmetic and logic operations  
+// Implement synchronous reset: when rst=1, set Y to 0
+// When rst=0, perform ALU operations based on op using a case statement  
 
 
 
