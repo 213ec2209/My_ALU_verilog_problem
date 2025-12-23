@@ -8,7 +8,7 @@ module ALU (
     output reg  [7:0]  Y      // ALU output
 );
 
-always @(posedge clk or posedge rst) begin
+always @(posedge clk) begin
     if (!rst) begin
         Y <= 8'd0;
     end else begin
