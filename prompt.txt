@@ -53,9 +53,23 @@ module ALU (
 
 );
 
-//Insert internal signal declarations
-// Implement synchronous reset: when rst=1, set Y to 0
-// When rst=0, perform ALU operations based on op using a case statement  
+//TODO: Implement the always block with synchronous logic
+// Structure:
+//   always @(posedge clk) begin
+//       if (rst) begin
+//           Y <= 8'd0;  // Reset output to zero
+//       end else begin
+//           case (op)
+//               3'b000: Y <= A + B;       // ADD
+//               3'b001: Y <= A - B;       // SUB
+//               3'b010: Y <= A & B;       // AND
+//               3'b011: Y <= A | B;       // OR
+//               3'b100: Y <= A ^ B;       // XOR
+//               3'b101: Y <= (A < B) ? 8'd1 : 8'd0;  // SLT (Set Less Than)
+//               default: Y <= 8'd0;       // Default case
+//           endcase
+//       end
+//   end  
 
 
 

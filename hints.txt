@@ -1,4 +1,39 @@
-1. Reset Behavior: When rst = 1 (HIGH), the output Y should be reset to 8'h00 on the rising clock edge. When rst = 0 (LOW), normal ALU operations are performed. The reset is synchronous.
-2. ALU operations: The number of arithmetic operations depends upon the op value which determines what operation is performed.
-3. The ALU computation logic is purely combinational, but the output Y is registered on the clock edge.
-4. Pay close attention to when the testbench samples the ALU output - it will be one clock cycle after the inputs are applied.
+1. **Module Structure**: Use an `always @(posedge clk)` block for synchronous logic. Inside this block, handle reset first, then ALU operations.
+
+2. **Reset Logic**: 
+   - When `rst == 1`: Set `Y <= 8'd0;` (use non-blocking assignment <=)
+   - When `rst == 0`: Perform ALU operations based on `op`
+
+3. **Operation Decoding**: Use a `case` statement to decode the `op` signal:
+   ```systemverilog
+   case (op)
+       3'b000: Y <= // ADD operation
+       3'b001: Y <= // SUB operation  
+       3'b010: Y <= // AND operation
+       3'b011: Y <= // OR operation
+       3'b100: Y <= // XOR operation
+       3'b101: Y <= // SLT operation
+       default: Y <= 8'd0;
+   endcase
+   ```
+
+4. **Operation Implementations**:
+   - ADD (op=000): `Y <= A + B;`
+   - SUB (op=001): `Y <= A - B;`
+   - AND (op=010): `Y <= A & B;`
+   - OR (op=011): `Y <= A | B;`
+   - XOR (op=100): `Y <= A ^ B;`
+   - SLT (op=101): Use conditional operator: `Y <= (A < B) ? 8'd1 : 8'd0;`
+
+5. **Complete Structure Template**:
+   ```systemverilog
+   always @(posedge clk) begin
+       if (rst) begin
+           // Reset logic here
+       end else begin
+           // Case statement for operations here
+       end
+   end
+   ```
+
+6. **Important**: All assignments to Y must use non-blocking assignment `<=` (not `=`) since this is sequential logic.
