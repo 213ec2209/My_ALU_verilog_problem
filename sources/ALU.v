@@ -7,7 +7,6 @@ module ALU (
     input  wire [2:0]  op,    // operation select
     output reg  [7:0]  Y      // ALU output
 );
-
 always @(posedge clk or posedge rst) begin
     if (!rst) begin
         Y <= 8'd0;
@@ -23,5 +22,4 @@ always @(posedge clk or posedge rst) begin
         endcase
     end
 end
-
 endmodule
